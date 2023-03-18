@@ -16,7 +16,7 @@ Product.belongsToMany(Tag, {
   }
 })
 // Tags belongToMany Products (through ProductTag)
-TimeRanges.BelongsToMany(Product, {
+Tag.BelongsToMany(Product, {
   through: {
     model: ProductTag,
     foreignKey: 'tag_id'
