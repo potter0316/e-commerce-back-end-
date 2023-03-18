@@ -26,9 +26,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', (req, res) => {
   // find a single tag by its `id`
   const specificTag = Tag.findByPk(req.params.id, {
-    include: {
-
-    }
+    include: [
+      {
+        model: Product,
+        attributes: ["id", "product_name", "price", "stock", "category_id"],
+        through: "ProductTag",
+      }
+    ]
   })
     .then(retrievedTag => {
       res.jsaon(retrievedTag);
@@ -42,6 +46,15 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
+  Tag.create({
+    tag_name: req.body.tag_name,
+  })
+    .then((tag) => {
+      res.jsaon(tag);
+    })
+    .catch((err) => {
+      res.jsaon(err);
+  })
 });
 
 router.delete('/:id', (req, res) => {
