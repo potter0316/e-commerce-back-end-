@@ -36,6 +36,9 @@ router.get('/:id', (req, res) => {
   })
     .then(retrievedTag => {
       res.json(retrievedTag);
+    })
+    .catch((err) => {
+      res.json(err);
   })
   // be sure to include its associated Product data
 });
@@ -66,11 +69,22 @@ router.put('/:id', (req, res) => {
     }
   ).then((tag) => {
     res.json(tag);
-        });
+  })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
+  Tag.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then((qtyRemoved) => {
+      res.json(`${qtyRemoved} tag were removed from the database`);
+  })
 });
 
 module.exports = router;
